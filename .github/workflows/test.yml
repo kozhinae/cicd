@@ -1,4 +1,4 @@
-name: CI
+name: tests
 
 on:
   push:
@@ -14,20 +14,14 @@ jobs:
       image: docker://srzzumix/googletest:latest
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Print some basic information
-        run:  echo "This task was started after push action at develop"
-
-      - name: Build project
+      - name: Create main
         run:  g++ main.cpp -o main -lgtest -lpthread
 
       - name: Run programm
-        run: |
-          ls
-          ./main
-      - name: Archive files and send them back
+        run: ./main
+      - name: Send files
         uses: actions/upload-artifact@v2.3.1
         with:
             name: build
