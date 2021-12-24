@@ -1,14 +1,35 @@
-name: tests psp
+name: CI
 
-on: [push]
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
 jobs:
-  Explore-GitHub-Actions:
-    runs-on: windows-latest
+  build:
+    runs-on: ubuntu-latest
+
+    container:
+      image: docker://srzzumix/googletest:latest
+
     steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - run: cd ${{ github.workspace }}
-      - run: mkdir build 
-      - run: cd build
-      - run: cmake ./main.cpp
-      - run: cmake --build .
-      - run: ./Debug/mtest.exe
+
+      - name: Print some basic information
+        run:  echo "This task was started after push action at develop"
+
+      - name: Build project
+        run:  g++ main.cpp -o main -lgtest -lpthread
+
+      - name: Run programm
+        run: |
+          ls
+          ./main
+      - name: Archive files and send them back
+        uses: actions/upload-artifact@v2.3.1
+        with:
+            name: build
+            path: main
+
