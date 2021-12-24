@@ -18,7 +18,7 @@ EXPECT_EQ("NO", psp("("));
 EXPECT_EQ("NO", psp(")"));
 }
 TEST(BracketsOrder, WrongOrderTest) {
-EXPECT_EQ("NO", psp("[]"));
+EXPECT_EQ("NO", psp("[])"));
 }
 TEST(BracketsOrder, RightOrderTest) {
 EXPECT_EQ("YES", psp("()"));
